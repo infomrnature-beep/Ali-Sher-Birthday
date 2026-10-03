@@ -1,0 +1,2805 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>ALI SHER — THE DREAM BEGINS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   ALI SHER — THE DREAM BEGINS
+   SINGLE FILE GITHUB PAGES VERSION
+   ========================================================= */
+
+:root{
+  --bg:#050505;
+  --bg2:#0b0b0c;
+  --panel:#111214;
+  --gold:#d4af37;
+  --gold2:#f4d77a;
+  --white:#f5f2e9;
+  --muted:#9c9c9c;
+  --line:rgba(212,175,55,.28);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:"Space Grotesk",sans-serif;
+  overflow-x:hidden;
+}
+
+body.no-scroll{
+  overflow:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  font:inherit;
+}
+
+::selection{
+  background:var(--gold);
+  color:#000;
+}
+
+/* ---------- LOADER ---------- */
+
+.loader{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:#020202;
+  display:grid;
+  place-items:center;
+  transition:opacity 1s ease,visibility 1s ease;
+}
+
+.loader.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.loader-inner{
+  width:min(420px,80vw);
+  text-align:center;
+}
+
+.loader-symbol{
+  width:90px;
+  height:90px;
+  margin:0 auto 28px;
+  border:1px solid var(--gold);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  position:relative;
+  color:var(--gold);
+  font-family:Cinzel,serif;
+  font-size:28px;
+  animation:loaderSpin 4s linear infinite;
+}
+
+.loader-symbol:before,
+.loader-symbol:after{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border:1px solid rgba(212,175,55,.25);
+  border-radius:50%;
+}
+
+.loader-symbol:after{
+  inset:22px;
+}
+
+.loader-title{
+  letter-spacing:.35em;
+  font-size:11px;
+  color:#aaa;
+  margin-bottom:14px;
+}
+
+.loader-bar{
+  height:2px;
+  background:#222;
+  overflow:hidden;
+}
+
+.loader-fill{
+  height:100%;
+  width:0;
+  background:var(--gold);
+  box-shadow:0 0 15px var(--gold);
+  transition:width .15s linear;
+}
+
+.loader-meta{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+  color:#666;
+  font-size:9px;
+  letter-spacing:.18em;
+}
+
+/* ---------- AMBIENT ---------- */
+
+.grain{
+  position:fixed;
+  inset:-50%;
+  width:200%;
+  height:200%;
+  z-index:9990;
+  pointer-events:none;
+  opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+  animation:grain .18s steps(2) infinite;
+}
+
+.vignette{
+  position:fixed;
+  inset:0;
+  z-index:9989;
+  pointer-events:none;
+  background:radial-gradient(circle,transparent 45%,rgba(0,0,0,.7) 100%);
+}
+
+.progress{
+  position:fixed;
+  top:0;
+  left:0;
+  height:2px;
+  width:0;
+  background:var(--gold);
+  z-index:10001;
+  box-shadow:0 0 12px rgba(212,175,55,.7);
+}
+
+/* ---------- CURSOR ---------- */
+
+.cursor-dot,
+.cursor-ring{
+  position:fixed;
+  pointer-events:none;
+  z-index:10000;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+}
+
+.cursor-dot{
+  width:5px;
+  height:5px;
+  background:var(--gold);
+}
+
+.cursor-ring{
+  width:30px;
+  height:30px;
+  border:1px solid rgba(212,175,55,.7);
+  transition:
+    width .25s var(--ease),
+    height .25s var(--ease),
+    border-color .25s ease;
+}
+
+.cursor-ring.hover{
+  width:55px;
+  height:55px;
+  border-color:var(--gold);
+}
+
+/* ---------- HEADER ---------- */
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:9000;
+  padding:22px 4vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:.5s var(--ease);
+}
+
+header.scrolled{
+  background:rgba(5,5,5,.82);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid rgba(212,175,55,.12);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  font-family:Cinzel,serif;
+  font-size:13px;
+  letter-spacing:.22em;
+}
+
+.brand-mark{
+  width:34px;
+  height:34px;
+  border:1px solid var(--gold);
+  display:grid;
+  place-items:center;
+  transform:rotate(45deg);
+}
+
+.brand-mark span{
+  transform:rotate(-45deg);
+  color:var(--gold);
+  font-size:13px;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  gap:25px;
+}
+
+nav a{
+  position:relative;
+  color:#aaa;
+  font-size:10px;
+  letter-spacing:.16em;
+  transition:.3s;
+}
+
+nav a:hover{
+  color:var(--gold);
+}
+
+nav a:after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-7px;
+  width:0;
+  height:1px;
+  background:var(--gold);
+  transition:.3s;
+}
+
+nav a:hover:after{
+  width:100%;
+}
+
+.sound-btn{
+  border:1px solid rgba(212,175,55,.3);
+  background:transparent;
+  color:#aaa;
+  padding:8px 11px;
+  cursor:pointer;
+  font-size:9px;
+  letter-spacing:.12em;
+}
+
+.sound-btn:hover{
+  color:var(--gold);
+  border-color:var(--gold);
+}
+
+.menu-btn{
+  display:none;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--gold);
+  padding:9px;
+  cursor:pointer;
+}
+
+/* ---------- SIDE RAILS ---------- */
+
+.rail{
+  position:fixed;
+  z-index:500;
+  top:50%;
+  writing-mode:vertical-rl;
+  font-size:8px;
+  letter-spacing:.25em;
+  color:#555;
+}
+
+.rail.left{
+  left:18px;
+  transform:translateY(-50%) rotate(180deg);
+}
+
+.rail.right{
+  right:18px;
+  transform:translateY(-50%);
+}
+
+/* ---------- HERO ---------- */
+
+.hero{
+  height:100svh;
+  min-height:650px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  background:
+    radial-gradient(circle at 80% 30%,rgba(212,175,55,.12),transparent 25%),
+    radial-gradient(circle at 20% 100%,rgba(180,30,30,.08),transparent 30%),
+    linear-gradient(to bottom,#08090a,#030303);
+}
+
+.hero-grid{
+  position:absolute;
+  inset:0;
+  opacity:.16;
+  background-image:
+    linear-gradient(rgba(212,175,55,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(212,175,55,.12) 1px,transparent 1px);
+  background-size:100px 100px;
+  transform:perspective(500px) rotateX(65deg) scale(2);
+  transform-origin:center bottom;
+  mask-image:linear-gradient(to top,#000,transparent 70%);
+}
+
+.stadium-light{
+  position:absolute;
+  width:45vw;
+  height:100vh;
+  top:-25%;
+  background:linear-gradient(110deg,transparent,rgba(255,245,200,.07),transparent);
+  filter:blur(10px);
+  transform:rotate(15deg);
+  animation:lightSweep 9s ease-in-out infinite;
+}
+
+.stadium-light.one{left:0}
+.stadium-light.two{
+  right:0;
+  animation-delay:3s;
+  transform:rotate(-15deg);
+}
+
+.hero-content{
+  position:relative;
+  z-index:5;
+  width:min(1200px,88vw);
+  margin:auto;
+}
+
+.hero-kicker{
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:.4em;
+  margin-bottom:25px;
+  opacity:0;
+  animation:rise 1s 1.7s forwards var(--ease);
+}
+
+.hero h1{
+  font-family:Cinzel,serif;
+  font-size:clamp(70px,13vw,190px);
+  line-height:.78;
+  letter-spacing:-.045em;
+  font-weight:700;
+  margin-left:-8px;
+  opacity:0;
+  animation:titleIn 1.4s 1.85s forwards var(--ease);
+}
+
+.hero h1 span{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(245,242,233,.8);
+}
+
+.hero-sub{
+  margin-top:38px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  opacity:0;
+  animation:rise 1s 2.2s forwards var(--ease);
+}
+
+.hero-line{
+  width:70px;
+  height:1px;
+  background:var(--gold);
+}
+
+.hero-sub p{
+  font-size:12px;
+  letter-spacing:.35em;
+  color:#aaa;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:12px;
+  margin-top:35px;
+  opacity:0;
+  animation:rise 1s 2.4s forwards var(--ease);
+}
+
+.btn{
+  padding:14px 20px;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  background:transparent;
+  cursor:pointer;
+  font-size:9px;
+  letter-spacing:.18em;
+  transition:.35s var(--ease);
+}
+
+.btn.primary{
+  background:var(--gold);
+  color:#050505;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(212,175,55,.15);
+}
+
+.hero-bowler{
+  position:absolute;
+  right:9vw;
+  bottom:0;
+  width:min(390px,36vw);
+  height:75vh;
+  opacity:.45;
+  z-index:2;
+}
+
+.bowler-silhouette{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:130px;
+  height:500px;
+  background:
+    radial-gradient(circle at 50% 8%,#ddd 0 25px,transparent 26px),
+    linear-gradient(90deg,transparent 35%,#151515 36% 64%,transparent 65%);
+  filter:drop-shadow(0 0 30px rgba(255,255,255,.08));
+  clip-path:polygon(
+    44% 0,56% 0,63% 10%,70% 25%,83% 48%,
+    100% 67%,85% 69%,68% 58%,65% 100%,
+    35% 100%,32% 58%,15% 69%,0 67%,
+    17% 48%,30% 25%,37% 10%
+  );
+}
+
+.speed-lines{
+  position:absolute;
+  right:0;
+  top:35%;
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:speed 2.5s infinite;
+}
+
+.scroll-hint{
+  position:absolute;
+  bottom:28px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  color:#555;
+  font-size:8px;
+  letter-spacing:.3em;
+}
+
+.scroll-line{
+  width:1px;
+  height:55px;
+  background:linear-gradient(var(--gold),transparent);
+  animation:scrollLine 1.8s infinite;
+}
+
+/* ---------- SECTION BASE ---------- */
+
+section{
+  position:relative;
+}
+
+.section-inner{
+  width:min(1200px,88vw);
+  margin:auto;
+}
+
+.eyebrow{
+  color:var(--gold);
+  font-size:9px;
+  letter-spacing:.35em;
+  margin-bottom:18px;
+}
+
+.section-title{
+  font-family:Cinzel,serif;
+  font-size:clamp(45px,7vw,95px);
+  line-height:.9;
+  font-weight:600;
+}
+
+.section-title span{
+  color:transparent;
+  -webkit-text-stroke:1px rgba(245,242,233,.65);
+}
+
+/* ---------- STORY ---------- */
+
+.story{
+  min-height:360vh;
+  background:#070708;
+}
+
+.story-sticky{
+  position:sticky;
+  top:0;
+  height:100svh;
+  min-height:650px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
+
+.story-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 55%,rgba(212,175,55,.1),transparent 25%),
+    linear-gradient(#060708,#020202);
+}
+
+.pitch{
+  position:absolute;
+  left:50%;
+  bottom:-15%;
+  width:80%;
+  height:75%;
+  transform:translateX(-50%) perspective(500px) rotateX(55deg);
+  border:1px solid rgba(212,175,55,.18);
+  box-shadow:0 0 80px rgba(212,175,55,.04);
+}
+
+.pitch:before,
+.pitch:after{
+  content:"";
+  position:absolute;
+  left:10%;
+  right:10%;
+  height:1px;
+  background:rgba(212,175,55,.15);
+}
+
+.pitch:before{top:35%}
+.pitch:after{top:65%}
+
+.story-content{
+  position:relative;
+  z-index:3;
+  width:min(900px,80vw);
+  margin:auto;
+  text-align:center;
+}
+
+.phase{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-content:center;
+  text-align:center;
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .8s var(--ease),transform .8s var(--ease);
+  pointer-events:none;
+}
+
+.phase.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.phase-number{
+  color:#444;
+  font-size:9px;
+  letter-spacing:.4em;
+  margin-bottom:20px;
+}
+
+.phase h2{
+  font-family:Cinzel,serif;
+  font-size:clamp(45px,8vw,100px);
+  margin-bottom:20px;
+}
+
+.phase p{
+  color:#999;
+  max-width:550px;
+  margin:auto;
+  line-height:1.8;
+  font-size:13px;
+}
+
+.story-progress{
+  position:absolute;
+  right:5vw;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.story-dot{
+  width:5px;
+  height:5px;
+  border:1px solid #555;
+  border-radius:50%;
+  transition:.3s;
+}
+
+.story-dot.active{
+  background:var(--gold);
+  border-color:var(--gold);
+  box-shadow:0 0 12px var(--gold);
+}
+
+/* ---------- BOWLER ---------- */
+
+.bowler-section{
+  padding:150px 0;
+  background:
+    radial-gradient(circle at 80% 50%,rgba(212,175,55,.07),transparent 30%),
+    #080809;
+}
+
+.bowler-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:90px;
+  align-items:center;
+}
+
+.profile-visual{
+  min-height:650px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(212,175,55,.18);
+  background:
+    radial-gradient(circle at 50% 25%,rgba(212,175,55,.14),transparent 25%),
+    linear-gradient(135deg,#161616,#050505);
+}
+
+.profile-visual:before{
+  content:"LEFT ARM";
+  position:absolute;
+  top:25px;
+  left:25px;
+  writing-mode:vertical-rl;
+  color:#555;
+  letter-spacing:.3em;
+  font-size:9px;
+}
+
+.profile-person{
+  position:absolute;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:55%;
+  height:80%;
+  background:
+    radial-gradient(circle at 50% 12%,#333 0 45px,transparent 46px),
+    linear-gradient(100deg,transparent 35%,#151515 36% 65%,transparent 66%);
+  clip-path:polygon(
+    43% 0,57% 0,65% 12%,72% 35%,90% 60%,
+    100% 65%,90% 73%,69% 62%,65% 100%,
+    35% 100%,31% 62%,10% 73%,0 65%,10% 60%,
+    28% 35%,35% 12%
+  );
+  filter:drop-shadow(0 0 40px rgba(212,175,55,.1));
+}
+
+.profile-ring{
+  position:absolute;
+  width:75%;
+  aspect-ratio:1;
+  border:1px solid rgba(212,175,55,.16);
+  border-radius:50%;
+  left:50%;
+  top:45%;
+  transform:translate(-50%,-50%);
+}
+
+.profile-ring:after{
+  content:"";
+  position:absolute;
+  inset:15%;
+  border:1px dashed rgba(212,175,55,.12);
+  border-radius:50%;
+  animation:spin 20s linear infinite;
+}
+
+.profile-copy h2{
+  font-family:Cinzel,serif;
+  font-size:clamp(48px,6vw,85px);
+  line-height:.9;
+  margin-bottom:30px;
+}
+
+.profile-copy h2 span{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1px var(--gold);
+}
+
+.profile-description{
+  color:#999;
+  max-width:500px;
+  line-height:1.9;
+  font-size:14px;
+  margin-bottom:45px;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--line);
+}
+
+.info{
+  padding:20px 0;
+  border-bottom:1px solid rgba(212,175,55,.15);
+}
+
+.info:nth-child(odd){
+  margin-right:20px;
+}
+
+.info-label{
+  color:#555;
+  font-size:8px;
+  letter-spacing:.2em;
+  margin-bottom:7px;
+}
+
+.info-value{
+  color:#ddd;
+  font-size:13px;
+}
+
+/* ---------- DELIVERY ---------- */
+
+.delivery{
+  min-height:100vh;
+  padding:150px 0;
+  overflow:hidden;
+  background:#050506;
+}
+
+.delivery-head{
+  text-align:center;
+  margin-bottom:100px;
+}
+
+.delivery-stage{
+  height:400px;
+  position:relative;
+  max-width:1000px;
+  margin:auto;
+  border-bottom:1px solid rgba(212,175,55,.3);
+}
+
+.delivery-line{
+  position:absolute;
+  left:5%;
+  right:5%;
+  top:50%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.ball{
+  position:absolute;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  left:8%;
+  top:calc(50% - 16px);
+  background:
+    radial-gradient(circle at 35% 30%,#fff,#aaa 30%,#500 32%,#050505 60%);
+  box-shadow:0 0 25px rgba(212,175,55,.35);
+  transition:transform 1.5s var(--ease);
+}
+
+.delivery-stage.launch .ball{
+  transform:translateX(780px) rotate(900deg);
+}
+
+.stage-label{
+  position:absolute;
+  top:calc(50% + 40px);
+  font-size:9px;
+  letter-spacing:.25em;
+  color:#666;
+}
+
+.stage-label.one{left:5%}
+.stage-label.two{left:45%}
+.stage-label.three{right:5%}
+
+.launch-btn{
+  display:block;
+  margin:40px auto 0;
+}
+
+/* ---------- INSPIRATION ---------- */
+
+.inspiration{
+  padding:150px 0;
+  background:#080808;
+}
+
+.inspiration-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:600px;
+  border:1px solid rgba(212,175,55,.15);
+}
+
+.inspiration-art{
+  position:relative;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(212,175,55,.15),transparent 20%),
+    linear-gradient(135deg,#111,#030303);
+  overflow:hidden;
+}
+
+.babar-silhouette{
+  position:absolute;
+  width:160px;
+  height:430px;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  background:
+    radial-gradient(circle at 50% 8%,#444 0 38px,transparent 39px),
+    linear-gradient(90deg,transparent 35%,#111 36% 65%,transparent 66%);
+  clip-path:polygon(
+    42% 0,58% 0,65% 12%,70% 38%,85% 60%,
+    100% 68%,85% 73%,67% 63%,64% 100%,
+    36% 100%,33% 63%,15% 73%,0 68%,15% 60%,
+    30% 38%,35% 12%
+  );
+}
+
+.inspiration-copy{
+  padding:80px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.inspiration-copy h2{
+  font-family:Cinzel,serif;
+  font-size:clamp(45px,5vw,70px);
+  line-height:.9;
+  margin-bottom:30px;
+}
+
+.inspiration-copy p{
+  color:#999;
+  line-height:1.9;
+  max-width:480px;
+}
+
+.inspiration-name{
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:.35em;
+  margin-bottom:20px;
+}
+
+/* ---------- DREAM WALL ---------- */
+
+.dream{
+  padding:160px 0;
+  background:
+    linear-gradient(rgba(212,175,55,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(212,175,55,.025) 1px,transparent 1px),
+    #060607;
+  background-size:80px 80px;
+}
+
+.dream-head{
+  max-width:700px;
+  margin-bottom:80px;
+}
+
+.dream-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+}
+
+.dream-card{
+  min-height:300px;
+  border:1px solid rgba(212,175,55,.13);
+  padding:30px 22px;
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.015);
+  transition:.5s var(--ease);
+}
+
+.dream-card:hover{
+  transform:translateY(-8px);
+  border-color:var(--gold);
+  background:rgba(212,175,55,.035);
+}
+
+.dream-number{
+  font-family:Cinzel,serif;
+  font-size:45px;
+  color:#252525;
+}
+
+.dream-card h3{
+  position:absolute;
+  bottom:55px;
+  font-family:Cinzel,serif;
+  font-size:20px;
+}
+
+.dream-card p{
+  position:absolute;
+  bottom:22px;
+  color:#666;
+  font-size:9px;
+  letter-spacing:.1em;
+}
+
+.dream-quote{
+  text-align:center;
+  padding:120px 20px 20px;
+}
+
+.dream-quote p{
+  font-family:Cinzel,serif;
+  font-size:clamp(25px,4vw,55px);
+  max-width:900px;
+  margin:auto;
+  line-height:1.25;
+}
+
+/* ---------- GALLERY ---------- */
+
+.gallery{
+  padding:150px 0;
+  background:#040405;
+}
+
+.gallery-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:60px;
+}
+
+.gallery-note{
+  color:#555;
+  max-width:300px;
+  font-size:11px;
+  line-height:1.7;
+}
+
+.gallery-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  grid-auto-rows:250px;
+  gap:10px;
+}
+
+.gallery-item{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(212,175,55,.1);
+  background:
+    radial-gradient(circle at 50% 40%,rgba(212,175,55,.1),transparent 25%),
+    #111;
+  cursor:pointer;
+}
+
+.gallery-item:first-child{
+  grid-row:span 2;
+}
+
+.gallery-item:after{
+  content:"MEMORY";
+  position:absolute;
+  bottom:15px;
+  left:15px;
+  color:#777;
+  font-size:8px;
+  letter-spacing:.25em;
+}
+
+.gallery-placeholder{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#444;
+  font-family:Cinzel,serif;
+  font-size:16px;
+  transition:.5s var(--ease);
+}
+
+.gallery-item:hover .gallery-placeholder{
+  transform:scale(1.05);
+  color:#777;
+}
+
+/* ---------- LIGHTBOX ---------- */
+
+.lightbox{
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  background:rgba(0,0,0,.94);
+  display:none;
+  place-items:center;
+  padding:30px;
+}
+
+.lightbox.open{
+  display:grid;
+}
+
+.lightbox-box{
+  width:min(900px,90vw);
+  height:min(700px,85vh);
+  border:1px solid var(--line);
+  display:grid;
+  place-items:center;
+  position:relative;
+  background:#090909;
+}
+
+.lightbox-text{
+  color:#555;
+  font-family:Cinzel,serif;
+  font-size:20px;
+}
+
+.lightbox-close{
+  position:absolute;
+  top:15px;
+  right:15px;
+  background:transparent;
+  border:1px solid #444;
+  color:#aaa;
+  width:40px;
+  height:40px;
+  cursor:pointer;
+}
+
+/* ---------- COUNTDOWN ---------- */
+
+.birthday{
+  min-height:100vh;
+  padding:150px 0;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  background:
+    radial-gradient(circle at center,rgba(212,175,55,.1),transparent 35%),
+    #050505;
+}
+
+.birthday-date{
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:.5em;
+  margin-bottom:25px;
+}
+
+.birthday h2{
+  font-family:Cinzel,serif;
+  font-size:clamp(50px,8vw,110px);
+  line-height:.9;
+  margin-bottom:60px;
+}
+
+.countdown{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  max-width:850px;
+  width:100%;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.time{
+  padding:30px 15px;
+  border-right:1px solid rgba(212,175,55,.15);
+}
+
+.time:last-child{
+  border:0;
+}
+
+.time strong{
+  display:block;
+  font-family:Cinzel,serif;
+  font-size:clamp(35px,5vw,65px);
+  color:var(--gold);
+}
+
+.time span{
+  color:#555;
+  font-size:8px;
+  letter-spacing:.25em;
+}
+
+.birthday-status{
+  margin-top:25px;
+  color:#555;
+  font-size:10px;
+  letter-spacing:.2em;
+}
+
+/* ---------- SURPRISE ---------- */
+
+.surprise{
+  min-height:100vh;
+  padding:150px 20px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  background:#030303;
+}
+
+.surprise-box{
+  width:min(900px,90vw);
+  padding:100px 40px;
+  border:1px solid rgba(212,175,55,.2);
+  position:relative;
+  overflow:hidden;
+}
+
+.surprise-box:before{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  background:rgba(212,175,55,.08);
+  filter:blur(60px);
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+
+.surprise-box > *{
+  position:relative;
+  z-index:2;
+}
+
+.surprise-box h2{
+  font-family:Cinzel,serif;
+  font-size:clamp(40px,7vw,90px);
+  line-height:.95;
+  margin-bottom:30px;
+}
+
+.surprise-message{
+  max-width:650px;
+  margin:0 auto 35px;
+  color:#999;
+  line-height:1.9;
+}
+
+.surprise-content{
+  display:none;
+}
+
+.surprise-content.show{
+  display:block;
+  animation:rise .8s var(--ease);
+}
+
+.confetti{
+  position:fixed;
+  width:7px;
+  height:14px;
+  z-index:9999;
+  pointer-events:none;
+  animation:confettiFall 2.8s linear forwards;
+}
+
+/* ---------- VAULT ---------- */
+
+.vault{
+  padding:150px 0;
+  background:#070708;
+  text-align:center;
+}
+
+.vault-box{
+  max-width:700px;
+  margin:auto;
+  border:1px solid rgba(212,175,55,.2);
+  padding:80px 30px;
+  position:relative;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(212,175,55,.015) 10px,
+      rgba(212,175,55,.015) 11px
+    );
+}
+
+.lock{
+  width:75px;
+  height:75px;
+  margin:0 auto 30px;
+  border:1px solid var(--gold);
+  display:grid;
+  place-items:center;
+  font-size:27px;
+  color:var(--gold);
+}
+
+.vault-box h2{
+  font-family:Cinzel,serif;
+  font-size:50px;
+  margin-bottom:15px;
+}
+
+.vault-box p{
+  color:#666;
+  font-size:12px;
+  line-height:1.8;
+  max-width:500px;
+  margin:0 auto 30px;
+}
+
+.vault-content{
+  display:none;
+  margin-top:40px;
+  border-top:1px solid var(--line);
+  padding-top:40px;
+}
+
+.vault-content.show{
+  display:block;
+  animation:rise .7s var(--ease);
+}
+
+.vault-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.vault-item{
+  aspect-ratio:1;
+  background:#111;
+  border:1px solid rgba(212,175,55,.1);
+  display:grid;
+  place-items:center;
+  color:#444;
+}
+
+/* ---------- FOOTER ---------- */
+
+footer{
+  padding:80px 5vw 35px;
+  background:#020202;
+  border-top:1px solid rgba(212,175,55,.1);
+}
+
+.footer-big{
+  font-family:Cinzel,serif;
+  font-size:clamp(55px,12vw,160px);
+  color:#121212;
+  line-height:.8;
+  text-align:center;
+  user-select:none;
+}
+
+.footer-row{
+  margin-top:70px;
+  padding-top:20px;
+  border-top:1px solid #171717;
+  display:flex;
+  justify-content:space-between;
+  color:#444;
+  font-size:8px;
+  letter-spacing:.2em;
+}
+
+/* ---------- REVEAL ---------- */
+
+.reveal{
+  opacity:0;
+  transform:translateY(35px);
+  transition:opacity 1s var(--ease),transform 1s var(--ease);
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:none;
+}
+
+/* ---------- BACK TOP ---------- */
+
+.back-top{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:8000;
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  color:var(--gold);
+  background:rgba(5,5,5,.8);
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
+
+.back-top.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* ---------- KEYFRAMES ---------- */
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(25px)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes titleIn{
+  from{
+    opacity:0;
+    transform:translateY(70px);
+    letter-spacing:.08em;
+  }
+  to{
+    opacity:1;
+    transform:none;
+    letter-spacing:-.045em;
+  }
+}
+
+@keyframes loaderSpin{
+  to{transform:rotate(360deg)}
+}
+
+@keyframes grain{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(2%,-1%)}
+  50%{transform:translate(-1%,2%)}
+  75%{transform:translate(1%,1%)}
+  100%{transform:translate(-2%,-2%)}
+}
+
+@keyframes lightSweep{
+  0%,100%{opacity:.2;transform:translateX(-10%) rotate(15deg)}
+  50%{opacity:.65;transform:translateX(30%) rotate(15deg)}
+}
+
+@keyframes speed{
+  0%{transform:translateX(-100%);opacity:0}
+  20%{opacity:1}
+  70%{opacity:1}
+  100%{transform:translateX(100%);opacity:0}
+}
+
+@keyframes scrollLine{
+  0%{transform:scaleY(0);transform-origin:top}
+  50%{transform:scaleY(1);transform-origin:top}
+  51%{transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+@keyframes confettiFall{
+  0%{
+    transform:translate3d(0,-20px,0) rotate(0);
+    opacity:1;
+  }
+  100%{
+    transform:translate3d(var(--x),100vh,0) rotate(720deg);
+    opacity:0;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:800px){
+
+  header{
+    padding:17px 5vw;
+  }
+
+  nav{
+    display:none;
+    position:absolute;
+    top:70px;
+    left:5vw;
+    right:5vw;
+    padding:25px;
+    background:rgba(8,8,8,.97);
+    border:1px solid var(--line);
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  nav.open{
+    display:flex;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .sound-btn{
+    margin-top:5px;
+  }
+
+  .rail{
+    display:none;
+  }
+
+  .cursor-dot,
+  .cursor-ring{
+    display:none;
+  }
+
+  .hero{
+    min-height:700px;
+  }
+
+  .hero-content{
+    width:85vw;
+  }
+
+  .hero h1{
+    font-size:clamp(65px,18vw,110px);
+  }
+
+  .hero-bowler{
+    opacity:.18;
+    width:65vw;
+    right:-8vw;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+    width:220px;
+  }
+
+  .story{
+    min-height:300vh;
+  }
+
+  .story-progress{
+    right:20px;
+  }
+
+  .bowler-layout,
+  .inspiration-layout{
+    grid-template-columns:1fr;
+  }
+
+  .profile-visual{
+    min-height:500px;
+  }
+
+  .inspiration-copy{
+    padding:50px 30px;
+  }
+
+  .dream-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .gallery-head{
+    display:block;
+  }
+
+  .gallery-note{
+    margin-top:25px;
+  }
+
+  .gallery-grid{
+    grid-template-columns:1fr 1fr;
+    grid-auto-rows:180px;
+  }
+
+  .gallery-item:first-child{
+    grid-row:span 1;
+  }
+
+  .countdown{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .time:nth-child(2){
+    border-right:0;
+  }
+
+  .time:nth-child(-n+2){
+    border-bottom:1px solid rgba(212,175,55,.15);
+  }
+
+  .vault-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .footer-row{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+  }
+}
+
+@media(max-width:480px){
+
+  .section-inner{
+    width:88vw;
+  }
+
+  .hero-sub p{
+    font-size:9px;
+  }
+
+  .profile-visual{
+    min-height:430px;
+  }
+
+  .dream-grid{
+    grid-template-columns:1fr;
+  }
+
+  .dream-card{
+    min-height:220px;
+  }
+
+  .gallery-grid{
+    grid-template-columns:1fr;
+  }
+
+  .gallery-item{
+    min-height:230px;
+  }
+
+  .surprise-box{
+    padding:70px 20px;
+  }
+}
+
+/* ---------- REDUCED MOTION ---------- */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+
+  .grain{
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="loader-symbol">AS</div>
+    <div class="loader-title">ALI SHER / INITIALIZING EXPERIENCE</div>
+    <div class="loader-bar">
+      <div class="loader-fill" id="loaderFill"></div>
+    </div>
+    <div class="loader-meta">
+      <span>THE DREAM BEGINS</span>
+      <span id="loaderPct">00</span>
+    </div>
+  </div>
+</div>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- HEADER -->
+<header id="header">
+  <a href="#home" class="brand">
+    <div class="brand-mark"><span>AS</span></div>
+    <span>ALI SHER</span>
+  </a>
+
+  <button class="menu-btn" id="menuBtn">MENU</button>
+
+  <nav id="nav">
+    <a href="#home">HOME</a>
+    <a href="#story">STORY</a>
+    <a href="#bowler">BOWLER</a>
+    <a href="#dream">DREAM</a>
+    <a href="#memories">MEMORIES</a>
+    <a href="#birthday">BIRTHDAY</a>
+    <a href="#vault">VAULT</a>
+    <button class="sound-btn" id="soundBtn">SOUND OFF</button>
+  </nav>
+</header>
+
+<div class="rail left">ALI SHER · 21 OCTOBER · LEFT ARM FAST BOWLER</div>
+<div class="rail right" id="scrollPercent">SCROLL 000%</div>
+
+<main>
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<section class="hero" id="home">
+
+  <div class="hero-grid"></div>
+  <div class="stadium-light one"></div>
+  <div class="stadium-light two"></div>
+
+  <div class="hero-bowler">
+    <div class="bowler-silhouette"></div>
+    <div class="speed-lines"></div>
+  </div>
+
+  <div class="hero-content">
+
+    <div class="hero-kicker">
+      21 OCTOBER · A NEW CHAPTER
+    </div>
+
+    <h1>
+      ALI
+      <span>SHER</span>
+    </h1>
+
+    <div class="hero-sub">
+      <div class="hero-line"></div>
+      <p>THE DREAM BEGINS</p>
+    </div>
+
+    <div class="hero-buttons">
+      <a class="btn primary" href="#story">ENTER EXPERIENCE</a>
+      <a class="btn" href="#birthday">BIRTHDAY</a>
+    </div>
+
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL TO BEGIN</span>
+    <div class="scroll-line"></div>
+  </div>
+
+</section>
+
+<!-- ======================================================
+     STORY
+====================================================== -->
+
+<section class="story" id="story">
+
+  <div class="story-sticky">
+
+    <div class="story-bg"></div>
+    <div class="pitch"></div>
+
+    <div class="story-content">
+
+      <div class="phase active" data-phase="0">
+        <div>
+          <div class="phase-number">01 / BEFORE THE DREAM</div>
+          <h2>SILENCE</h2>
+          <p>
+            Every journey starts somewhere.
+            Before the crowd, before the stadium lights,
+            there is only a dream.
+          </p>
+        </div>
+      </div>
+
+      <div class="phase" data-phase="1">
+        <div>
+          <div class="phase-number">02 / THE VISION</div>
+          <h2>THE VISION</h2>
+          <p>
+            A dream becomes meaningful when you decide
+            to keep moving toward it.
+          </p>
+        </div>
+      </div>
+
+      <div class="phase" data-phase="2">
+        <div>
+          <div class="phase-number">03 / LEFT ARM</div>
+          <h2>THE BOWLER</h2>
+          <p>
+            Left-arm fast bowling. Focus, movement,
+            rhythm and the next delivery.
+          </p>
+        </div>
+      </div>
+
+      <div class="phase" data-phase="3">
+        <div>
+          <div class="phase-number">04 / THE NEXT CHAPTER</div>
+          <h2>THE FUTURE</h2>
+          <p>
+            The story is still being written.
+            The dream begins now.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="story-progress">
+      <div class="story-dot active"></div>
+      <div class="story-dot"></div>
+      <div class="story-dot"></div>
+      <div class="story-dot"></div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     BOWLER
+====================================================== -->
+
+<section class="bowler-section" id="bowler">
+
+  <div class="section-inner">
+
+    <div class="bowler-layout reveal">
+
+      <div class="profile-visual">
+        <div class="profile-ring"></div>
+        <div class="profile-person"></div>
+      </div>
+
+      <div class="profile-copy">
+
+        <div class="eyebrow">THE BOWLER / PROFILE</div>
+
+        <h2>
+          LEFT ARM.
+          <span>FULL FOCUS.</span>
+        </h2>
+
+        <p class="profile-description">
+          Ali Sher dreams of becoming a professional cricketer.
+          His style: left-arm fast bowling. Every practice,
+          every delivery and every improvement is another step
+          toward the dream.
+        </p>
+
+        <div class="info-grid">
+
+          <div class="info">
+            <div class="info-label">NAME</div>
+            <div class="info-value">ALI SHER</div>
+          </div>
+
+          <div class="info">
+            <div class="info-label">BOWLING STYLE</div>
+            <div class="info-value">LEFT-ARM FAST</div>
+          </div>
+
+          <div class="info">
+            <div class="info-label">DREAM</div>
+            <div class="info-value">PROFESSIONAL CRICKETER</div>
+          </div>
+
+          <div class="info">
+            <div class="info-label">INSPIRATION</div>
+            <div class="info-value">BABAR AZAM</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     DELIVERY
+====================================================== -->
+
+<section class="delivery">
+
+  <div class="section-inner">
+
+    <div class="delivery-head reveal">
+      <div class="eyebrow">THE ART OF THE DELIVERY</div>
+      <h2 class="section-title">
+        RUN-UP.
+        <span>RELEASE.</span>
+        DELIVERY.
+      </h2>
+    </div>
+
+    <div class="delivery-stage" id="deliveryStage">
+
+      <div class="delivery-line"></div>
+
+      <div class="ball" id="ball"></div>
+
+      <div class="stage-label one">RUN-UP</div>
+      <div class="stage-label two">RELEASE</div>
+      <div class="stage-label three">DELIVERY</div>
+
+    </div>
+
+    <button class="btn primary launch-btn" id="launchBall">
+      LAUNCH DELIVERY
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     INSPIRATION
+====================================================== -->
+
+<section class="inspiration">
+
+  <div class="section-inner">
+
+    <div class="inspiration-layout reveal">
+
+      <div class="inspiration-art">
+        <div class="babar-silhouette"></div>
+      </div>
+
+      <div class="inspiration-copy">
+
+        <div class="inspiration-name">THE INSPIRATION</div>
+
+        <h2>
+          BABAR
+          <br>
+          AZAM
+        </h2>
+
+        <p>
+          Great players can inspire the next generation to
+          dream bigger, work harder and keep improving.
+          For Ali Sher, Babar Azam is the player who inspires
+          his cricket journey.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     DREAM WALL
+====================================================== -->
+
+<section class="dream" id="dream">
+
+  <div class="section-inner">
+
+    <div class="dream-head reveal">
+
+      <div class="eyebrow">THE FUTURE IS UNWRITTEN</div>
+
+      <h2 class="section-title">
+        BUILD
+        <span>THE DREAM.</span>
+      </h2>
+
+    </div>
+
+    <div class="dream-grid">
+
+      <div class="dream-card reveal">
+        <div class="dream-number">01</div>
+        <h3>KEEP LEARNING</h3>
+        <p>PROGRESS NEVER STOPS</p>
+      </div>
+
+      <div class="dream-card reveal">
+        <div class="dream-number">02</div>
+        <h3>KEEP PRACTICING</h3>
+        <p>EVERY DELIVERY MATTERS</p>
+      </div>
+
+      <div class="dream-card reveal">
+        <div class="dream-number">03</div>
+        <h3>BUILD CONSISTENCY</h3>
+        <p>ONE STEP AT A TIME</p>
+      </div>
+
+      <div class="dream-card reveal">
+        <div class="dream-number">04</div>
+        <h3>STAY FOCUSED</h3>
+        <p>KEEP THE VISION</p>
+      </div>
+
+      <div class="dream-card reveal">
+        <div class="dream-number">05</div>
+        <h3>CHASE THE DREAM</h3>
+        <p>THE NEXT CHAPTER</p>
+      </div>
+
+    </div>
+
+    <div class="dream-quote reveal">
+      <p>
+        "THE FUTURE IS NOT GIVEN.
+        IT IS BUILT."
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     MEMORIES
+====================================================== -->
+
+<section class="gallery" id="memories">
+
+  <div class="section-inner">
+
+    <div class="gallery-head reveal">
+
+      <div>
+        <div class="eyebrow">PERSONAL ARCHIVE</div>
+        <h2 class="section-title">
+          MOMENTS
+          <span>THAT MATTER.</span>
+        </h2>
+      </div>
+
+      <p class="gallery-note">
+        Replace these placeholders with Ali Sher's real
+        photographs. No fake memories or invented images
+        are used.
+      </p>
+
+    </div>
+
+    <div class="gallery-grid">
+
+      <div class="gallery-item reveal" data-memory="MEMORY 01">
+        <div class="gallery-placeholder">PHOTO 01</div>
+      </div>
+
+      <div class="gallery-item reveal" data-memory="MEMORY 02">
+        <div class="gallery-placeholder">PHOTO 02</div>
+      </div>
+
+      <div class="gallery-item reveal" data-memory="MEMORY 03">
+        <div class="gallery-placeholder">PHOTO 03</div>
+      </div>
+
+      <div class="gallery-item reveal" data-memory="MEMORY 04">
+        <div class="gallery-placeholder">PHOTO 04</div>
+      </div>
+
+      <div class="gallery-item reveal" data-memory="MEMORY 05">
+        <div class="gallery-placeholder">PHOTO 05</div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- LIGHTBOX -->
+
+<div class="lightbox" id="lightbox">
+
+  <div class="lightbox-box">
+
+    <div class="lightbox-text" id="lightboxText">
+      MEMORY
+    </div>
+
+    <button class="lightbox-close" id="lightboxClose">
+      ×
+    </button>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     BIRTHDAY COUNTDOWN
+====================================================== -->
+
+<section class="birthday" id="birthday">
+
+  <div class="section-inner">
+
+    <div class="birthday-date">
+      21 OCTOBER · BIRTHDAY COUNTDOWN
+    </div>
+
+    <h2>
+      THE DAY
+      <br>
+      <span>IS COMING.</span>
+    </h2>
+
+    <div class="countdown">
+
+      <div class="time">
+        <strong id="days">00</strong>
+        <span>DAYS</span>
+      </div>
+
+      <div class="time">
+        <strong id="hours">00</strong>
+        <span>HOURS</span>
+      </div>
+
+      <div class="time">
+        <strong id="minutes">00</strong>
+        <span>MINUTES</span>
+      </div>
+
+      <div class="time">
+        <strong id="seconds">00</strong>
+        <span>SECONDS</span>
+      </div>
+
+    </div>
+
+    <div class="birthday-status" id="birthdayStatus">
+      COUNTING DOWN TO A SPECIAL DAY.
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     SURPRISE
+====================================================== -->
+
+<section class="surprise">
+
+  <div class="surprise-box reveal">
+
+    <div class="eyebrow">SPECIAL TRANSMISSION</div>
+
+    <h2>
+      READY FOR
+      <br>
+      THE SURPRISE?
+    </h2>
+
+    <p class="surprise-message">
+      A special birthday message is waiting behind the
+      button. Open it when you're ready.
+    </p>
+
+    <button class="btn primary" id="surpriseBtn">
+      UNLOCK BIRTHDAY SURPRISE
+    </button>
+
+    <div class="surprise-content" id="surpriseContent">
+
+      <div style="font-size:60px;margin:30px 0;">✦</div>
+
+      <h2>HAPPY BIRTHDAY,<br>ALI SHER!</h2>
+
+      <p class="surprise-message">
+        May this new chapter bring happiness, new
+        opportunities, confidence and progress toward
+        every dream you carry. Keep learning, keep
+        practicing, and keep moving forward.
+        Your story is still being written.
+      </p>
+
+      <div class="eyebrow">
+        THE DREAM BEGINS NOW.
+      </div>
+
+      <button class="btn" id="replayBtn">
+        REPLAY CELEBRATION
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     SECRET VAULT
+====================================================== -->
+
+<section class="vault" id="vault">
+
+  <div class="section-inner">
+
+    <div class="vault-box reveal">
+
+      <div class="lock">◆</div>
+
+      <div class="eyebrow">RESTRICTED ARCHIVE</div>
+
+      <h2>SECRET VAULT</h2>
+
+      <p>
+        A hidden space for personal cricket photographs
+        and bowling footage.
+      </p>
+
+      <button class="btn primary" id="vaultBtn">
+        OPEN THE VAULT
+      </button>
+
+      <div class="vault-content" id="vaultContent">
+
+        <p style="margin-bottom:25px;">
+          VAULT OPEN — ADD REAL PHOTOS AND VIDEOS HERE.
+        </p>
+
+        <div class="vault-grid">
+
+          <div class="vault-item">VAULT 01</div>
+          <div class="vault-item">VAULT 02</div>
+          <div class="vault-item">VAULT 03</div>
+          <div class="vault-item">VIDEO 01</div>
+          <div class="vault-item">VIDEO 02</div>
+          <div class="vault-item">VIDEO 03</div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     FINAL
+====================================================== -->
+
+<section class="surprise" id="end">
+
+  <div class="surprise-box reveal">
+
+    <div class="eyebrow">THE NEXT CHAPTER</div>
+
+    <h2>
+      ALI SHER
+      <br>
+      <span style="color:transparent;-webkit-text-stroke:1px var(--gold)">
+        THE DREAM BEGINS.
+      </span>
+    </h2>
+
+    <p class="surprise-message">
+      The future is still unwritten.
+      Keep the dream alive.
+    </p>
+
+    <button class="btn primary" id="topBtn">
+      RETURN TO THE BEGINNING
+    </button>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+
+  <div class="footer-big">
+    ALI SHER
+  </div>
+
+  <div class="footer-row">
+    <span>THE DREAM BEGINS</span>
+    <span>21 OCTOBER</span>
+    <span>LEFT-ARM FAST BOWLER</span>
+  </div>
+
+</footer>
+
+<button class="back-top" id="backTop">↑</button>
+
+<script>
+/* =========================================================
+   ALI SHER — MAIN JAVASCRIPT
+   ========================================================= */
+
+"use strict";
+
+/* ---------- LOADER ---------- */
+
+const loader = document.getElementById("loader");
+const loaderFill = document.getElementById("loaderFill");
+const loaderPct = document.getElementById("loaderPct");
+
+let loadProgress = 0;
+
+const loaderTimer = setInterval(() => {
+
+  loadProgress += Math.floor(Math.random() * 7) + 2;
+
+  if(loadProgress >= 100){
+    loadProgress = 100;
+    clearInterval(loaderTimer);
+
+    setTimeout(() => {
+      loader.classList.add("hide");
+      document.body.classList.remove("no-scroll");
+    },400);
+  }
+
+  loaderFill.style.width = loadProgress + "%";
+  loaderPct.textContent = String(loadProgress).padStart(2,"0");
+
+},80);
+
+document.body.classList.add("no-scroll");
+
+
+/* ---------- HEADER / MOBILE MENU ---------- */
+
+const header = document.getElementById("header");
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("nav");
+
+menuBtn.addEventListener("click",() => {
+  nav.classList.toggle("open");
+});
+
+nav.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click",() => {
+    nav.classList.remove("open");
+  });
+});
+
+
+/* ---------- SCROLL PROGRESS ---------- */
+
+const progress = document.getElementById("progress");
+const scrollPercent = document.getElementById("scrollPercent");
+const backTop = document.getElementById("backTop");
+
+function updateScroll(){
+
+  const scrollTop = window.scrollY;
+  const maxScroll =
+    document.documentElement.scrollHeight -
+    window.innerHeight;
+
+  const percent =
+    maxScroll > 0
+    ? Math.round((scrollTop / maxScroll) * 100)
+    : 0;
+
+  progress.style.width = percent + "%";
+  scrollPercent.textContent =
+    "SCROLL " + String(percent).padStart(3,"0") + "%";
+
+  header.classList.toggle("scrolled",scrollTop > 40);
+  backTop.classList.toggle("show",scrollTop > 600);
+}
+
+window.addEventListener("scroll",updateScroll,{passive:true});
+updateScroll();
+
+
+/* ---------- CUSTOM CURSOR ---------- */
+
+const cursorDot = document.getElementById("cursorDot");
+const cursorRing = document.getElementById("cursorRing");
+
+let mouseX = 0;
+let mouseY = 0;
+let ringX = 0;
+let ringY = 0;
+
+if(window.matchMedia("(pointer:fine)").matches){
+
+  window.addEventListener("mousemove",e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    cursorDot.style.left = mouseX + "px";
+    cursorDot.style.top = mouseY + "px";
+  });
+
+  function cursorLoop(){
+
+    ringX += (mouseX - ringX) * .15;
+    ringY += (mouseY - ringY) * .15;
+
+    cursorRing.style.left = ringX + "px";
+    cursorRing.style.top = ringY + "px";
+
+    requestAnimationFrame(cursorLoop);
+  }
+
+  cursorLoop();
+
+  document.querySelectorAll("a,button,.gallery-item").forEach(el => {
+
+    el.addEventListener("mouseenter",() => {
+      cursorRing.classList.add("hover");
+    });
+
+    el.addEventListener("mouseleave",() => {
+      cursorRing.classList.remove("hover");
+    });
+
+  });
+}
+
+
+/* ---------- REVEAL ON SCROLL ---------- */
+
+const revealObserver = new IntersectionObserver(
+  entries => {
+
+    entries.forEach(entry => {
+
+      if(entry.isIntersecting){
+        entry.target.classList.add("visible");
+        revealObserver.unobserve(entry.target);
+      }
+
+    });
+
+  },
+  {
+    threshold:.12
+  }
+);
+
+document.querySelectorAll(".reveal").forEach(el => {
+  revealObserver.observe(el);
+});
+
+
+/* ---------- STORY PHASES ---------- */
+
+const story = document.querySelector(".story");
+const phases = document.querySelectorAll(".phase");
+const storyDots = document.querySelectorAll(".story-dot");
+
+function updateStory(){
+
+  const rect = story.getBoundingClientRect();
+
+  const total =
+    story.offsetHeight - window.innerHeight;
+
+  const progress =
+    Math.min(
+      1,
+      Math.max(
+        0,
+        -rect.top / total
+      )
+    );
+
+  let phaseIndex =
+    Math.min(
+      phases.length - 1,
+      Math.floor(progress * phases.length)
+    );
+
+  phases.forEach((phase,index) => {
+    phase.classList.toggle(
+      "active",
+      index === phaseIndex
+    );
+  });
+
+  storyDots.forEach((dot,index) => {
+    dot.classList.toggle(
+      "active",
+      index === phaseIndex
+    );
+  });
+}
+
+window.addEventListener("scroll",updateStory,{passive:true});
+updateStory();
+
+
+/* ---------- DELIVERY ANIMATION ---------- */
+
+const deliveryStage =
+  document.getElementById("deliveryStage");
+
+const launchBall =
+  document.getElementById("launchBall");
+
+launchBall.addEventListener("click",() => {
+
+  deliveryStage.classList.remove("launch");
+
+  void deliveryStage.offsetWidth;
+
+  deliveryStage.classList.add("launch");
+
+  setTimeout(() => {
+    deliveryStage.classList.remove("launch");
+  },1800);
+
+});
+
+
+/* ---------- GALLERY LIGHTBOX ---------- */
+
+const lightbox =
+  document.getElementById("lightbox");
+
+const lightboxText =
+  document.getElementById("lightboxText");
+
+const lightboxClose =
+  document.getElementById("lightboxClose");
+
+document.querySelectorAll(".gallery-item").forEach(item => {
+
+  item.addEventListener("click",() => {
+
+    lightboxText.textContent =
+      item.dataset.memory || "MEMORY";
+
+    lightbox.classList.add("open");
+
+  });
+
+});
+
+function closeLightbox(){
+  lightbox.classList.remove("open");
+}
+
+lightboxClose.addEventListener("click",closeLightbox);
+
+lightbox.addEventListener("click",e => {
+
+  if(e.target === lightbox){
+    closeLightbox();
+  }
+
+});
+
+document.addEventListener("keydown",e => {
+
+  if(e.key === "Escape"){
+    closeLightbox();
+  }
+
+});
+
+
+/* ---------- COUNTDOWN ---------- */
+
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
+const birthdayStatus =
+  document.getElementById("birthdayStatus");
+
+function getNextBirthday(){
+
+  const now = new Date();
+
+  let year = now.getFullYear();
+
+  let birthday =
+    new Date(year,9,21,0,0,0);
+
+  if(birthday <= now){
+    birthday =
+      new Date(year + 1,9,21,0,0,0);
+  }
+
+  return birthday;
+}
+
+function updateCountdown(){
+
+  const now = new Date();
+  const target = getNextBirthday();
+
+  let diff = target - now;
+
+  if(diff <= 0){
+
+    daysEl.textContent = "00";
+    hoursEl.textContent = "00";
+    minutesEl.textContent = "00";
+    secondsEl.textContent = "00";
+
+    birthdayStatus.textContent =
+      "HAPPY BIRTHDAY, ALI SHER!";
+
+    return;
+  }
+
+  const day =
+    1000 * 60 * 60 * 24;
+
+  const hour =
+    1000 * 60 * 60;
+
+  const minute =
+    1000 * 60;
+
+  const days =
+    Math.floor(diff / day);
+
+  diff %= day;
+
+  const hours =
+    Math.floor(diff / hour);
+
+  diff %= hour;
+
+  const minutes =
+    Math.floor(diff / minute);
+
+  const seconds =
+    Math.floor((diff % minute) / 1000);
+
+  daysEl.textContent =
+    String(days).padStart(2,"0");
+
+  hoursEl.textContent =
+    String(hours).padStart(2,"0");
+
+  minutesEl.textContent =
+    String(minutes).padStart(2,"0");
+
+  secondsEl.textContent =
+    String(seconds).padStart(2,"0");
+
+}
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+
+/* ---------- CONFETTI ---------- */
+
+function createConfetti(){
+
+  const count =
+    window.innerWidth < 600 ? 60 : 110;
+
+  for(let i=0;i<count;i++){
+
+    const piece =
+      document.createElement("div");
+
+    piece.className = "confetti";
+
+    piece.style.left =
+      Math.random() * 100 + "vw";
+
+    piece.style.top =
+      "-30px";
+
+    piece.style.setProperty(
+      "--x",
+      (Math.random() * 300 - 150) + "px"
+    );
+
+    piece.style.animationDelay =
+      Math.random() * .8 + "s";
+
+    piece.style.opacity =
+      Math.random();
+
+    document.body.appendChild(piece);
+
+    setTimeout(() => {
+      piece.remove();
+    },4000);
+
+  }
+
+}
+
+
+/* ---------- BIRTHDAY SURPRISE ---------- */
+
+const surpriseBtn =
+  document.getElementById("surpriseBtn");
+
+const surpriseContent =
+  document.getElementById("surpriseContent");
+
+surpriseBtn.addEventListener("click",() => {
+
+  surpriseContent.classList.add("show");
+  surpriseBtn.style.display = "none";
+
+  createConfetti();
+
+});
+
+
+const replayBtn =
+  document.getElementById("replayBtn");
+
+replayBtn.addEventListener("click",() => {
+
+  createConfetti();
+
+});
+
+
+/* ---------- SECRET VAULT ---------- */
+
+const vaultBtn =
+  document.getElementById("vaultBtn");
+
+const vaultContent =
+  document.getElementById("vaultContent");
+
+vaultBtn.addEventListener("click",() => {
+
+  vaultContent.classList.toggle("show");
+
+  vaultBtn.textContent =
+    vaultContent.classList.contains("show")
+    ? "CLOSE THE VAULT"
+    : "OPEN THE VAULT";
+
+});
+
+
+/* ---------- BACK TO TOP ---------- */
+
+backTop.addEventListener("click",() => {
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+});
+
+document.getElementById("topBtn")
+  .addEventListener("click",() => {
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  });
+
+
+/* ---------- SIMPLE SOUND UI ---------- */
+
+const soundBtn =
+  document.getElementById("soundBtn");
+
+let soundOn = false;
+
+soundBtn.addEventListener("click",() => {
+
+  soundOn = !soundOn;
+
+  soundBtn.textContent =
+    soundOn
+    ? "SOUND ON"
+    : "SOUND OFF";
+
+});
+
+
+/* ---------- IMAGE PLACEHOLDER SUPPORT ----------
+   
+   To add real photos later, replace:
+
+   <div class="gallery-placeholder">PHOTO 01</div>
+
+   with:
+
+   <img src="assets/photo1.jpg"
+        alt="Ali Sher memory">
+
+   For GitHub Pages, upload your image into
+   the repository and use the correct relative path.
+---------------------------------------------------- */
+
+
+/* ---------- FINAL INITIALIZATION ---------- */
+
+window.addEventListener("load",() => {
+  updateScroll();
+  updateStory();
+});
+
+</script>
+
+</body>
+</html>
+```
